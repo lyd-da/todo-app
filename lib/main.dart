@@ -36,6 +36,8 @@ class _HomePageState extends State<HomePage> {
   String input = '';
   String search = '';
   List<Task> tasks = [];
+  TextEditingController controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -90,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              ...tasks
+              ...tasks.reversed
                   .where((element) => element.task.contains(search))
                   .map((e) => Card(
                         margin: EdgeInsets.all(10),
@@ -147,11 +149,11 @@ class _HomePageState extends State<HomePage> {
             child: Row(
               children: [
                 Expanded(
-                  child: TextField(
+                  child: TextFormField(
+                    controller: controller,
                     onChanged: (val) {
                       setState(() {
                         input = val;
-                        val = '';
                       });
                     },
                     decoration: InputDecoration(
@@ -164,6 +166,7 @@ class _HomePageState extends State<HomePage> {
                   iconSize: 40,
                   onPressed: () {
                     tasks.add(Task(id: Random().nextInt(10), task: input));
+                    controller.clear();
                     setState(() {});
                   },
                   icon: Container(
