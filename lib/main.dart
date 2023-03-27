@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app/task.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,16 +13,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primaryColor: Colors.pink[100],
-        appBarTheme: AppBarTheme(
-          backgroundColor: Colors.pink[100],
-          // foregroundColor: Colors.pink[100],
-        ),
-      ),
-      home: HomePage(),
-    );
+    return ChangeNotifierProvider(
+        create: (_) => TaskList(),
+        child: MaterialApp(
+          theme: ThemeData(
+            primaryColor: Colors.pink[100],
+            appBarTheme: AppBarTheme(
+              backgroundColor: Colors.pink[100],
+              // foregroundColor: Colors.pink[100],
+            ),
+          ),
+          home: HomePage(),
+        ));
   }
 }
 
@@ -36,10 +40,18 @@ class _HomePageState extends State<HomePage> {
   String input = '';
   String search = '';
   List<Task> tasks = [];
+  List<TaskList> taskList = [];
   TextEditingController controller = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+  final   taskList = Provider.of<TaskList>(context);
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -92,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              ...tasks.reversed
+              ...taskList.tasks.reversed
                   .where((element) => element.task.contains(search))
                   .map((e) => Card(
                         margin: EdgeInsets.all(10),
@@ -102,12 +114,13 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             Checkbox(
                                 value: e.isSelected,
-                                onChanged: (bool? value) {
-                                  final task = tasks.firstWhere(
-                                      (element) => element.id == e.id);
-                                  setState(() {
-                                    task.isSelected = value as bool;
-                                  });
+                                onChanged: (_) {
+                                  // final task = tasks.firstWhere(
+                                  //     (element) => element.id == e.id);
+                                  // setState(() {
+                                  //   task.isSelected = value as bool;
+                                  // });
+                                  taskList.completed(e);
                                 }),
                             Text(
                               e.task,
@@ -121,9 +134,8 @@ class _HomePageState extends State<HomePage> {
                             IconButton(
                               tooltip: 'Delete',
                               onPressed: () {
-                                tasks.removeWhere(
-                                    (element) => element.id == e.id);
-                                setState(() {});
+                                taskList.remove(e);
+                                // setState(() {});
                               },
                               icon: Icon(
                                 Icons.delete,
@@ -165,9 +177,9 @@ class _HomePageState extends State<HomePage> {
                 IconButton(
                   iconSize: 40,
                   onPressed: () {
-                    tasks.add(Task(id: Random().nextInt(10), task: input));
+                    taskList.add(Task(id: Random().nextInt(10), task: input));
                     controller.clear();
-                    setState(() {});
+                    // setState(() {});
                   },
                   icon: Container(
                     decoration: BoxDecoration(
@@ -188,11 +200,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-}
-
-class Task {
-  dynamic id;
-  bool isSelected;
-  String task;
-  Task({required this.id, required this.task, this.isSelected = false});
 }
