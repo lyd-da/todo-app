@@ -20,4 +20,9 @@ class TaskList extends ChangeNotifier {
     _taskList.remove(task);
     notifyListeners();
   }
+
+  void completed(Task task) {
+    task.isSelected = !task.isSelected;
+    notifyListeners();
+  }
 }
