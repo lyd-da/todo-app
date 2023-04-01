@@ -18,26 +18,51 @@ class _LoginWidgetState extends State<LoginWidget> {
       child: Scaffold(
         backgroundColor: Colors.blueGrey[50],
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              children: [
-                Icon(Icons.email, color: Colors.pink[100]),
-                Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'email',
-                    ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        "Welcome!!",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          suffixIcon: Icon(
+                            Icons.email,
+                            color: Colors.purple[100],
+                          ),
+                          label: Text('Email'),
+                        ),
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              Icons.remove_red_eye_outlined,
+                              color: Colors.purple[100],
+                            ),
+                            onPressed: () {},
+                          ),
+                          label: Text('Password'),
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: Text("Login"),
+                      )
+                    ],
                   ),
                 ),
-              ],
-            ),
-            Card(
-              child:
-                ListTile(
-                  leading: Icon(Icons.email),
-                )
-              ,
+              ),
             ),
           ],
         ),
