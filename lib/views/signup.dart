@@ -3,20 +3,22 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:todo_app/model/auth.dart';
 import 'package:todo_app/provider/auth.dart';
-import 'package:todo_app/views/signup.dart';
+import 'package:todo_app/views/login.dart';
 import 'package:todo_app/views/task.dart';
 
-class LoginWidget extends StatefulWidget {
-  const LoginWidget({super.key});
+class SignupWidget extends StatefulWidget {
+  const SignupWidget({super.key});
 
   @override
-  State<LoginWidget> createState() => _LoginWidgetState();
+  State<SignupWidget> createState() => _SignupWidgetState();
 }
 
-class _LoginWidgetState extends State<LoginWidget> {
+class _SignupWidgetState extends State<SignupWidget> {
   String email = '';
   String password = '';
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -40,7 +42,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                         height: 20,
                       ),
                       TextFormField(
-                        onChanged: (value) => email = value,
+                        onChanged: (value) {
+                          setState(() {
+                            email = value;
+                          });
+                        },
                         decoration: InputDecoration(
                           suffixIcon: Icon(
                             Icons.email,
@@ -50,7 +56,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                         ),
                       ),
                       TextFormField(
-                        onChanged: (value) => password = value,
+                        onChanged: (value) {
+                          setState(() {
+                            password = value;
+                          });
+                        },
                         decoration: InputDecoration(
                           suffixIcon: IconButton(
                             icon: Icon(
@@ -64,39 +74,26 @@ class _LoginWidgetState extends State<LoginWidget> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          try {
-                            AuthController.login(email, password);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomePage(),
-                              ),
-                            );
-                          } catch (e) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => LoginWidget(),
-                              ),
-                            );
-                          }
+                          AuthController.signup(email, password);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginWidget(),
+                            ),
+                          );
                         },
-                        child: Text("Login"),
+                        child: Text("Signup"),
                       ),
                       Row(
                         children: [
                           Row(
                             children: [
                               TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SignupWidget(),
-                                    ),
-                                  );
-                                },
-                                child: Text("Signup"),
+                                onPressed: () {},
+                                child: Text(
+                                  "Login",
+                                  textAlign: TextAlign.right,
+                                ),
                               ),
                             ],
                           ),
