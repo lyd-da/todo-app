@@ -29,6 +29,11 @@ class MyApp extends StatelessWidget {
               // foregroundColor: Colors.pink[100],
             ),
           ),
+          // initialRoute: '/login',
+          // routes: {
+          //   '/': (context) => HomePage(),
+          //   '/login': (context) => LoginWidget()
+          // },
           home: LoginWidget(),
         ));
   }
