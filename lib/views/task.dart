@@ -1,8 +1,10 @@
 import 'dart:math';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/model/task.dart';
+import 'package:todo_app/provider/auth.dart';
 import 'package:todo_app/provider/task.dart';
 
 class HomePage extends StatefulWidget {
@@ -36,7 +38,16 @@ class _HomePageState extends State<HomePage> {
           title: Text('TODO List'),
         ),
         backgroundColor: Colors.blueGrey[50],
-        drawer: Drawer(width: 250.0),
+        drawer: Drawer(
+            width: 250.0,
+            child: TextButton(
+              onPressed: () => AuthController.logout(context),
+              child: Column(
+                children: [
+                  Text('Logout'),
+                ],
+              ),
+            )),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

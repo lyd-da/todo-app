@@ -17,6 +17,7 @@ class LoginWidget extends StatefulWidget {
 class _LoginWidgetState extends State<LoginWidget> {
   String email = '';
   String password = '';
+  bool hide = true;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -50,36 +51,25 @@ class _LoginWidgetState extends State<LoginWidget> {
                         ),
                       ),
                       TextFormField(
+                        obscureText: hide,
                         onChanged: (value) => password = value,
                         decoration: InputDecoration(
                           suffixIcon: IconButton(
                             icon: Icon(
-                              Icons.remove_red_eye_outlined,
+                              hide ? Icons.visibility : Icons.visibility_off,
                               color: Colors.purple[100],
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              hide = !hide;
+                              setState(() {});
+                            },
                           ),
                           label: Text('Password'),
                         ),
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          try {
-                            AuthController.login(email, password);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomePage(),
-                              ),
-                            );
-                          } catch (e) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => LoginWidget(),
-                              ),
-                            );
-                          }
+                          AuthController.login(email, password, context);
                         },
                         child: Text("Login"),
                       ),
